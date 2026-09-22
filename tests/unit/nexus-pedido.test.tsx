@@ -24,7 +24,9 @@ describe("NexusSteps", () => {
   it("volta a passos alcançados", () => {
     const onGo = vi.fn();
     render(<NexusSteps steps={steps} current={2} reached={2} onGo={onGo} />);
-    fireEvent.click(screen.getAllByRole("button")[0]);
+    const primeiro = screen.getAllByRole("button")[0];
+    if (!primeiro) throw new Error("sem botão de passo");
+    fireEvent.click(primeiro);
     expect(onGo).toHaveBeenCalledWith(0);
   });
 });
@@ -65,7 +67,9 @@ describe("NexusConfirmDialog", () => {
     fireEvent.click(screen.getByRole("button", { name: "Excluir" }));
     expect(screen.getByText("Excluir cliente?")).toBeInTheDocument();
     const botoes = screen.getAllByRole("button", { name: "Excluir" });
-    fireEvent.click(botoes[botoes.length - 1]);
+    const confirmar = botoes[botoes.length - 1];
+    if (!confirmar) throw new Error("sem botão de confirmação");
+    fireEvent.click(confirmar);
     expect(onConfirm).toHaveBeenCalledTimes(1);
   });
 });
