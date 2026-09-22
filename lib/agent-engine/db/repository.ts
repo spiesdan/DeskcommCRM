@@ -60,6 +60,9 @@ export type InboxKind =
   // nenhum trecho foi gravado. UM kind e não dois, porque quem lê a Central
   // quer saber que o material não entrou — o porquê é o corpo do aviso.
   | 'conhecimento_nao_indexado'
+  // (migration 0237) Resumo diário do Radar (cron radar-digest): UM item por
+  // org por dia com as contagens — sem spam por cliente.
+  | 'radar_digest'
   | 'other';
 
 export interface InboxItemRow {

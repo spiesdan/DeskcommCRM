@@ -12,9 +12,12 @@ x-logging: &default-logging
 
 services:
   app:
-    # Teto de memória — 335 MiB de pico MEDIDO nesta VPS.
+    # Teto de memória — 776 MiB de pico MEDIDO (OOM killer em produção com
+    # 10k pedidos: agregados do dashboard estouraram os 768m anteriores e o
+    # Node morreu no meio do stream, com a tela caindo em erro de rede).
+    # VPS atual tem 8 GB — 1536m dá folga sem ameaçar o host.
     #
-    # Sem ele o contêiner é ilimitado, e numa VPS de 3,8 GB isso não é teoria:
+    # Sem ele o contêiner é ilimitado, e numa VPS pequena isso não é teoria:
     # um contêiner ALHEIO (agente da hospedagem, fora deste compose) registrou
     # pico de 3.068 MiB no mesmo host. Quando a RAM acaba, o OOM killer escolhe
     # a vítima por PONTUAÇÃO — quem cresceu mais rápido —, não por importância:
@@ -23,7 +26,7 @@ services:
     # O teto não impede o pico legítimo; impede que UM serviço leve a máquina
     # inteira. Estourá-lo mata só quem estourou, e o `restart: unless-stopped`
     # o traz de volta — falha isolada em vez de queda geral.
-    mem_limit: 768m
+    mem_limit: 1536m
     # Imagem GENÉRICA pré-buildada: o leigo só puxa (sobe em ~2min, roda em 2GB).
     # Os NEXT_PUBLIC_* reais vêm em RUNTIME (env_file abaixo) — o browser lê via
     # <PublicEnvScript/> e o servidor via lib/env.ts. Não precisa buildar no VPS.

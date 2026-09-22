@@ -62,6 +62,9 @@ export const KIND_LABEL = {
   // Diz o que ACONTECEU com o material, e nunca "a indexação falhou": quem
   // subiu um PDF quer saber que o agente ainda não sabe o que está nele.
   conhecimento_nao_indexado: "Um material que você enviou não entrou na base de conhecimento",
+  // Diz o estado da carteira, não um evento: é o único item da Central que é
+  // resumo periódico, não ocorrência. O corpo traz as contagens; o Radar, as ações.
+  radar_digest: "Resumo do Radar — clientes pedindo atenção hoje",
   other: "Aviso do assistente",
 } as const satisfies Record<InboxKind, string>;
 
