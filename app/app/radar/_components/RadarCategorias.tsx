@@ -80,7 +80,8 @@ export function RadarCategorias({
   React.useEffect(() => {
     let vivo = true;
     apiClient
-      .get<{ data: TituloVencido[] }>("/api/v1/financeiro/recebiveis?limit=500")
+      // Teto da rota é 200 (recebiveisQuerySchema) — acima disso, 422.
+      .get<{ data: TituloVencido[] }>("/api/v1/financeiro/recebiveis?limit=200")
       .then((r) => {
         if (!vivo) return;
         setTitulos(
