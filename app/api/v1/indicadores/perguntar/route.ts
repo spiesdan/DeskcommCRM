@@ -76,7 +76,7 @@ export async function POST(req: NextRequest): Promise<Response> {
   try {
     const tz = (org as unknown as { timezone?: string | null } | null)?.timezone ?? null;
     if (tz) {
-      new Intl.DateTimeFormat("pt-BR", { timeZone: tz });
+      new Intl.DateTimeFormat("en-CA", { timeZone: tz });
       fuso = tz;
     }
   } catch {

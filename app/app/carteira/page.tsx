@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 function fusoValido(fuso: string | null): string {
   if (!fuso) return FUSO_PADRAO;
   try {
-    new Intl.DateTimeFormat("pt-BR", { timeZone: fuso });
+    new Intl.DateTimeFormat("en-CA", { timeZone: fuso });
     return fuso;
   } catch {
     return FUSO_PADRAO;
