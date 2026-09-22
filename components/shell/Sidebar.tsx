@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { toggleSidebar } from "@/app/actions/shell/toggleSidebar";
 import { useAuth } from "@/hooks/auth/AuthProvider";
 import { ConnectionHealthDot } from "@/components/connections/ConnectionHealthDot";
+import { SidebarNotice } from "@/components/shell/SidebarNotice";
 import { VersionFooter } from "@/components/shell/VersionFooter";
 import { useMarcaDaInstalacao } from "@/lib/branding/contexto";
 import { GRUPO_NO_RODAPE, NAV_GROUPS, sidebarGroups } from "@/lib/navigation/registry";
@@ -76,7 +77,12 @@ export function SidebarContent({
 
   return (
     <>
-      <div className={cn("flex items-center border-b px-4 h-14", collapsed ? "justify-center" : "justify-start")}>
+      <div
+        className={cn(
+          "flex h-14 items-center border-b px-4",
+          collapsed ? "justify-center" : "justify-start",
+        )}
+      >
         {logo && !collapsed ? (
           // <img> em vez de next/image de propósito: a URL vem de quem hospeda
           // (banco ou .env), e next/image exige allowlist de domínios fechada em
@@ -84,15 +90,9 @@ export function SidebarContent({
           // Altura fixa e largura livre porque a arte enviada tem proporção
           // desconhecida; forçar as duas distorceria o logo de quem configurou.
           // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={logo}
-            alt={nome}
-            className="h-7 w-auto max-w-[10rem] object-contain"
-          />
+          <img src={logo} alt={nome} className="h-7 w-auto max-w-[10rem] object-contain" />
         ) : (
-          <span className={cn("font-medium tracking-tight", collapsed && "sr-only")}>
-            {nome}
-          </span>
+          <span className={cn("font-medium tracking-tight", collapsed && "sr-only")}>{nome}</span>
         )}
         {collapsed && (
           <span
@@ -138,12 +138,16 @@ export function SidebarContent({
               ) : (
                 <h2
                   id={tituloId}
-                  className="px-3 text-[10px] font-medium uppercase tracking-wider text-muted-foreground"
+                  className="px-3 text-[10px] font-medium tracking-wider text-muted-foreground uppercase"
                 >
                   {t(group.label)}
                 </h2>
               )}
-              <ul aria-labelledby={collapsed ? undefined : tituloId} aria-label={collapsed ? t(group.label) : undefined} className="space-y-1">
+              <ul
+                aria-labelledby={collapsed ? undefined : tituloId}
+                aria-label={collapsed ? t(group.label) : undefined}
+                className="space-y-1"
+              >
                 {items.map((item) => {
                   const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
@@ -169,7 +173,7 @@ export function SidebarContent({
                         {!collapsed && <span className="truncate">{t(item.label)}</span>}
                         {item.healthDot && (
                           <ConnectionHealthDot
-                            className={cn(collapsed ? "absolute right-1.5 top-1.5" : "ml-auto")}
+                            className={cn(collapsed ? "absolute top-1.5 right-1.5" : "ml-auto")}
                           />
                         )}
                       </Link>
@@ -220,6 +224,7 @@ export function SidebarContent({
             {!collapsed && <span className="truncate">{t(rodape.label)}</span>}
           </Link>
         )}
+        <SidebarNotice collapsed={collapsed} />
         <VersionFooter collapsed={collapsed} onNavigate={onNavigate} />
         {showCollapseControl && (
           <button
@@ -232,7 +237,11 @@ export function SidebarContent({
             )}
             aria-label={collapsed ? t("Expandir sidebar") : t("Recolher sidebar")}
           >
-            {collapsed ? <CaretDoubleRight size={14} aria-hidden /> : <CaretDoubleLeft size={14} aria-hidden />}
+            {collapsed ? (
+              <CaretDoubleRight size={14} aria-hidden />
+            ) : (
+              <CaretDoubleLeft size={14} aria-hidden />
+            )}
             {!collapsed && <span>{t("Recolher")}</span>}
           </button>
         )}

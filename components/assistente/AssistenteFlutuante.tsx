@@ -25,8 +25,12 @@ export function AssistenteFlutuante() {
     return () => window.removeEventListener("keydown", aoTeclar);
   }, [aberto, fechar]);
 
+  // `bottom-24 md:bottom-5`: o dock mobile é fixo e cobriria o avatar.
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 print:hidden" data-assistente="flutuante">
+    <div
+      className="fixed right-5 bottom-24 z-40 flex flex-col items-end gap-3 md:bottom-5 print:hidden"
+      data-assistente="flutuante"
+    >
       <AssistenteChat aberto={aberto} onFechar={fechar} />
       <AssistenteAvatar aberto={aberto} onToggle={alternar} />
     </div>

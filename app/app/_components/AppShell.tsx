@@ -1,6 +1,7 @@
 "use client";
 import type { ReactNode } from "react";
 import { Sidebar } from "@/components/shell/Sidebar";
+import { MobileDock } from "@/components/shell/MobileDock";
 import { TopBar } from "@/components/shell/TopBar";
 import { AssistenteFlutuante } from "@/components/assistente/AssistenteFlutuante";
 import { useInboundMessageAlerts } from "@/hooks/notifications/useInboundMessageAlerts";
@@ -54,8 +55,10 @@ export function AppShell({ sidebarCollapsed, children }: AppShellProps) {
       */}
       <div className="flex h-screen min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <TopBar />
-        <main className="min-h-0 flex-1 overflow-auto p-6">{children}</main>
+        {/* `pb-24 md:pb-6`: o dock mobile é fixo e cobriria o fim do conteúdo. */}
+        <main className="min-h-0 flex-1 overflow-auto p-6 pb-24 md:pb-6">{children}</main>
       </div>
+      <MobileDock />
       {/* Assistente de ajuda: só na área logada (/app/*), canto inferior
           direito. Reage ao mouse, pula no clique e abre o chat de ajuda. */}
       <AssistenteFlutuante />
